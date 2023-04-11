@@ -25,34 +25,6 @@ public class AppConfiguration {
 		filter.setOrder(-1);
 		return filter;
 	}
-
-	//redis
-	@Value("${spring.redis.host}")
-    private String redisHost;
-	@Value("${spring.redis.port}")
-    private int redisPort;
-	
-	@Bean
-    public JedisConnectionFactory jedisConnectionFactory() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(redisHost, redisPort);
-        return new JedisConnectionFactory(redisStandaloneConfiguration);
-    }
-	
-	@Bean
-	public RedisTemplate<String,Object>redisTemplate(RedisConnectionFactory connectionFactory){
-		RedisTemplate<String,Object>template=new RedisTemplate<>();
-		template.setConnectionFactory(connectionFactory);
-			
-		//设置key的序列化和反序列化类型 采用StringRedisSerializer
-	    template.setKeySerializer(new StringRedisSerializer());
-	    template.setHashKeySerializer(new StringRedisSerializer());
-
-	    //设置value的序列化和反序列化类型 采用GenericJackson2JsonRedisSerializer
-	    template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-	    template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
-	        
-		return template;
-	}
 	
 	@Bean
 	public ServerEndpointExporter serverEndpointExporter() {
